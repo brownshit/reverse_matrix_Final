@@ -2,22 +2,48 @@
 using namespace std;
 
 /*
-	¼­ºê ¸ÅÆ®¸¯½º¸¦ ¹Ş¾Æ¿Â µğÅÍ¹Ì³ÍÆ®°¡ Çà·Ä½Ä ¹İÈ¯
-		->cofactorÀÇ ¿ä¼Ò¸¦ Ã¤¿î´Ù.
-			->cofactorµéÀ» matrixÈ­ ½ÃÅ°´Â ÇÔ¼ö
-			->cofactor ¸ÅÆ®¸¯½º ÇÔ¼ö
+	ì„œë¸Œ ë§¤íŠ¸ë¦­ìŠ¤ë¥¼ ë°›ì•„ì˜¨ ë””í„°ë¯¸ë„ŒíŠ¸ê°€ í–‰ë ¬ì‹ ë°˜í™˜
+		->cofactorì˜ ìš”ì†Œë¥¼ ì±„ìš´ë‹¤.
+			->cofactorë“¤ì„ matrixí™” ì‹œí‚¤ëŠ” í•¨ìˆ˜
+			->cofactor ë§¤íŠ¸ë¦­ìŠ¤ í•¨ìˆ˜
 			
-			->0Çà cofactorµéÀÇ sum->Çà·ÄÀÇ det
+			->0í–‰ cofactorë“¤ì˜ sum->í–‰ë ¬ì˜ det
 */
+
 cofactor_deploy::cofactor_deploy()
 {
 	matrix temp;
 	for_cofactor_matrix = temp;
 	matrix_1 = for_cofactor_matrix.get_my_mat_n1();
-	//½ÇÁ¦ matrix_1À» »ç¿ëÇÏ±â À§ÇÑ matrix
+	//ì‹¤ì œ matrix_1ì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ matrix
 	n = for_cofactor_matrix.get_my_num();
-	det = 0;
+	//det = 1;
 }
+
+void cofactor_deploy::return_matrix()
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << matrix_1[i][j] << " " << endl;
+		}
+		cout << "\n" << endl;
+	}
+}
+void cofactor_deploy::return_co_matrix()
+{
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cout << cofactor_matrix()[i][j] << " " << endl;
+		}
+		cout << "\n" << endl;
+	}
+}
+
+
 
 double** cofactor_deploy::get_matrix()
 {
@@ -30,9 +56,9 @@ int cofactor_deploy::get_num()
 //prints the determinant
 //	printf("the determinant is %lf\n", determinant(n, Matrix));
 
-//MÀº ³»ºÎ¿¡¼­ Çà°ú ¿­ÀÇ °³¼ö°¡ n-1¾¿ÁÙ¾îµç »óÅÂ¿¡¼­ÀÇ »õ·Î¿î Çà·ÄÀÇ ±¸¼ºÇÔ¼ö
+//Mì€ ë‚´ë¶€ì—ì„œ í–‰ê³¼ ì—´ì˜ ê°œìˆ˜ê°€ n-1ì”©ì¤„ì–´ë“  ìƒíƒœì—ì„œì˜ ìƒˆë¡œìš´ í–‰ë ¬ì˜ êµ¬ì„±í•¨ìˆ˜
 
-//determinant °è»ê ÇÔ¼ö
+//determinant ê³„ì‚° í•¨ìˆ˜
 double** cofactor_deploy::Submatrix(double** matrix_1, int n, int x, int y) {
 
 	double** submatrix = new double* [n];
@@ -65,9 +91,9 @@ double** cofactor_deploy::Submatrix(double** matrix_1, int n, int x, int y) {
 	return submatrix;
 }
 
-
+double det = 0;
 //determinant
-double cofactor_deploy::determinant_0th(double** matrix_1, int n)//ÀÏ´Ü ¾êÀÇ ¸ñÀûÀÌ ¹Ù²ñ 
+double cofactor_deploy::determinant_0th(double** matrix_1, int n)//ì¼ë‹¨ ì–˜ì˜ ëª©ì ì´ ë°”ë€œ 
 {
 	if (n == 1) { return matrix_1[0][0]; }
 	if (n == 2) {
@@ -82,15 +108,15 @@ double cofactor_deploy::determinant_0th(double** matrix_1, int n)//ÀÏ´Ü ¾êÀÇ ¸ñÀ
 
 	return det;
 	/*
-		y´Â ¹«Á¶°Ç Ã¹¹øÂ° ÇàÀ» °¡Áö°í ¿¬»ê.
-		x¿­,yÇà
+		yëŠ” ë¬´ì¡°ê±´ ì²«ë²ˆì§¸ í–‰ì„ ê°€ì§€ê³  ì—°ì‚°.
+		xì—´,yí–‰
 	*/
-	//return det;//¾ê¸¦ ¹İÈ¯ÇÑ´Ù.Å¬·¡½º¿¡¼­
+	//return det;//ì–˜ë¥¼ ë°˜í™˜í•œë‹¤.í´ë˜ìŠ¤ì—ì„œ
 }
 
 
 //submatrix->determinant->cofactor
-double **cofactor_deploy::cofactor_matrix()//¾ê°¡ ¿©ÀÎ¼öµéÀÇ matrix»ı¼ºÇÑ´Ù. ±× ¾È¿¡ ¿©ÀÎÀÚµéÀÌ Æ÷ÇÔµÇ¾îÀÖ´Ù.
+double **cofactor_deploy::cofactor_matrix()//ì–˜ê°€ ì—¬ì¸ìˆ˜ë“¤ì˜ matrixìƒì„±í•œë‹¤. ê·¸ ì•ˆì— ì—¬ì¸ìë“¤ì´ í¬í•¨ë˜ì–´ìˆë‹¤.
 {
 	double** matrix_of_cofactor = new double* [n];
 	for (int i = 0; i < n; i++)
@@ -101,6 +127,7 @@ double **cofactor_deploy::cofactor_matrix()//¾ê°¡ ¿©ÀÎ¼öµéÀÇ matrix»ı¼ºÇÑ´Ù. ±× 
 			matrix_of_cofactor[i][j]= (((i+j) % 2 == 0 ? 1 : -1) * determinant_0th(Submatrix(matrix_1, n, j, i), n - 1));
 		}
 	}
+	
 	return matrix_of_cofactor;
 }
 
