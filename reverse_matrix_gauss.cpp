@@ -2,145 +2,194 @@
 
 using namespace std;
 
-reverse_matrix_gauss::reverse_matrix_gauss(matrix temp1)
+reverse_matrix_gauss::reverse_matrix_gauss(cofactor_deploy temp2, matrix temp1)
 {
-	mymatrix = temp1;
-	matrix_1 = mymatrix.get_my_mat_n1();
-	matrix_2 = mymatrix.get_my_mat_n2();
-	n = mymatrix.get_my_num();
+	mymatrix1 = temp1;
+	mymatrix2 = temp2;
+	matrix_1 = mymatrix1.get_my_mat_n1();
+	matrix_2 = mymatrix1.get_my_mat_n2();
+	n = mymatrix1.get_my_num();
 }
 
-void reverse_matrix_gauss::matrix_return(double** mymatrix, int n)
+
+//ê°€ìš°ìŠ¤ ì¡°ë˜í•¨ìˆ˜
+double** reverse_matrix_gauss::matrix_rev_return(double det, double**matrix_1, double**matrix_2, int n)
 {
-	cout << "[Çà·Ä Ãâ·Â]" << endl;
+	//matrixì—°ì‚° í›„ì—ë„ ê·¸ ê°’ì´ ë°”ë€Œì–´ ë‹¤ìŒì—°ì‚°ì— ì§€ì¥ì„ ì£¼ì§€ ì•Šê²Œ í•˜ê¸° ìœ„í•´ì„œ
+	double** matrix_temp = new double* [n];
+	for (int i = 0; i < n; i++)
+	{
+		matrix_temp[i] = new double[n];
+	}
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			cout << mymatrix[i][j] << " ";
+			matrix_temp[i][j] = matrix_1[i][j];
 		}
-		cout << endl;
 	}
-}
 
-//°¡¿ì½º Á¶´øÇÔ¼ö
-double** reverse_matrix_gauss::matrix_rev_return(cofactor_deploy c1)
-{
-	//determinant = 0ÀÌ¸é, 0¹İÈ¯, 1ÀÌ¸é 1¹İÈ¯
-	if (c1.determinant_0th(c1.get_matrix(), c1.get_num()) == 0)
+
+	//determinant_0th ë‚´ë¶€ì˜ ì¸ìë“¤ì€ ë¬´ì¡°ê±´ matrixì—ì„œ ê°€ì ¸ì™€ì•¼ í•œë‹¤.
+
+	cout << "[det] = " << det << endl;
+
+	//determinant = 0ì´ë©´, 0ë°˜í™˜, 1ì´ë©´ 1ë°˜í™˜
+	if (det == 0)
 	{
-		cout << "Çà·Ä½ÄÀÇ °ªÀÌ 0. ¿ªÇà·Ä ¿¬»êÀ» ÁøÇàÇÒ ¼ö ¾ø´Ù." << endl;
+		cout << "í–‰ë ¬ì‹ì˜ ê°’ì´ 0. ì—­í–‰ë ¬ ì—°ì‚°ì„ ì§„í–‰í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << endl;
 		return 0;
 	}
 
-	//°¡¿ì½º Á¶´ø ¼Ò°Å¹ıÀ» ÀÌ¿ëÇÒ¶§, ¿¬»êÀº matrix_1, matrix_2¸ğµÎ °°ÀÌ ÁøÇàµÇ¾î¾ß ÇÑ´Ù.
-		//for¹®À» ÅëÇØ ¿¬»ê
+	//ê°€ìš°ìŠ¤ ì¡°ë˜ ì†Œê±°ë²•ì„ ì´ìš©í• ë•Œ, ì—°ì‚°ì€ matrix_1, matrix_2ëª¨ë‘ ê°™ì´ ì§„í–‰ë˜ì–´ì•¼ í•œë‹¤.
+		//forë¬¸ì„ í†µí•´ ì—°ì‚°
 
-		//Çà °è»ê ÈÄ¿¡ ¿­ÀÌ º¯°æµÇ¹Ç·Î, 1Â÷¿ø ¿ä¼ÒµéÀ» ¸ÕÀú »ç¿ëÇØÁØ´Ù.  
-	for (int j = 0; j < n; j++)
+    double r2 = 0;
+    int i_flag = 0;
+    for (int a = 0; a < n; a++) 
+    {
+        for (int b = 0; b < n; b++) 
+        {
+            if (matrix_1[b][b] != 1) 
+            {
+                if (matrix_1[b][b] == 0) 
+                {
+                    for (int i = b; i < n; i++) 
+                    {
+                        if (matrix_1[i][b] != 0) 
+                        {
+                            i_flag = i;
+                        }
+                    }
+
+                    for (int i = 0; i < n; i++) 
+                    {
+                        if (b == n - 1) 
+                        {
+                            r2 = matrix_1[b - 1][i];
+                            matrix_1[b][i] = matrix_1[b][i] + r2;
+                            matrix_2[b][i] = matrix_2[b][i] + r2;
+                        }
+                        else 
+                        {
+                            r2 = matrix_1[i_flag][i];
+                            matrix_1[b][i] = matrix_1[b][i] + r2;
+                            matrix_2[b][i] = matrix_2[b][i] + r2;
+                        }
+                    }
+                }
+
+                double k = matrix_1[b][b];
+                for (int i = 0; i < n; i++) 
+                {
+                    matrix_1[b][i] = matrix_1[b][i] / k;
+                    matrix_2[b][i] = matrix_2[b][i] / k;
+                }
+            }
+        }
+    }
+
+    for (int j = 0; j < n; j++) 
+    {
+        for (int i = j; i < n - 1; i++) 
+        {
+            double k = 0;
+            if (matrix_1[i + 1][j] == 0) 
+            {
+                continue;
+            }
+            k = (1 / matrix_1[i + 1][j]);
+
+            for (int l = 0; l < n; l++) 
+            {
+                matrix_1[i + 1][l] = k * matrix_1[i + 1][l] - matrix_1[j][l];
+                matrix_2[i + 1][l] = k * matrix_2[i + 1][l] - matrix_2[j][l];
+            }
+
+            double r2 = 0;
+            int i_flag = 0;
+
+            for (int a = 0; a < n; a++) 
+            {
+                for (int b = 0; b < n; b++) 
+                {
+                    if (matrix_1[b][b] != 1) 
+                    {
+                        if (matrix_1[b][b] == 0) 
+                        {
+                            for (int i = b; i < n; i++) 
+                            {
+                                if (matrix_1[i][b] != 0) 
+                                {
+                                    i_flag = i;
+                                }
+                            }
+                            for (int i = 0; i < n; i++) 
+                            {
+                                if (b == n - 1) 
+                                {
+                                    r2 = matrix_1[b - 1][i];
+                                    matrix_1[b][i] = matrix_1[b][i] + r2;
+                                    matrix_2[b][i] = matrix_2[b][i] + r2;
+                                }
+                                else 
+                                {
+                                    r2 = matrix_1[i_flag][i];
+                                    matrix_1[b][i] = matrix_1[b][i] + r2;
+                                    matrix_2[b][i] = matrix_2[b][i] + r2;
+                                }
+                            }
+                        }
+
+                        double k = matrix_1[b][b];
+                        for (int i = 0; i < n; i++) 
+                        {
+                            matrix_1[b][i] = matrix_1[b][i] / k;
+                            matrix_2[b][i] = matrix_2[b][i] / k;
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+
+    for (int j = 0; j < n; j++) 
+    {
+        for (int i = j; i < n - 1; i++) 
+        {
+            double r = matrix_1[n - 2 - i][n - 1 - j];
+
+            for (int l = 0; l < n; l++) 
+            {
+                matrix_1[n - 2 - i][l] = matrix_1[n - 2 - i][l] - r * matrix_1[n - 1 - j][l];
+                matrix_2[n - 2 - i][l] = matrix_2[n - 2 - i][l] - r * matrix_2[n - 1 - j][l];
+            }
+        }
+    }
+
+	cout << "[matrix return : gauss_jordan_reverse_matrix output]\n" << endl;
+	for (int i = 0; i < n; i++)
 	{
-		for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+			cout << matrix_2[i][j] << " ";
+		cout << endl;
+	}
+	cout << endl;
+
+
+//cofactor ì—°ì‚°ì„ í•˜ê¸° ìœ„í•œ í•„ì—°ì ì¸ ì½”ë“œ
+
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
 		{
-			//i==j°æ¿ì¿¡ ¿¬»êÀ» ¸ÕÀú ÁøÇàÇØÁà¾ß ÇÑ´Ù.
-			//´ë°¢Çà·ÄÀÌ 1ÀÌ µÇµµ·Ï ¹Ù²ãÁà¾ß ÇÑ´Ù.
-			if (i == j)
-			{
-				//matrix_1[i][j]
-				//i==jÀÎ °æ¿ì¿¡¼­ °°Àº ÇàÀ» ´Ù ³ª´²ÁØ´Ù.
-				//ÀÌ °æ¿ì ÇÇº¿µéÀ» 1·Î ¸¸µé¾îÁØ´Ù.
-				if (i == 0)//ÀÌ if¹®Àº ÇÇº¿ÀÇ °ªÀÌ 0ÀÎ°æ¿ì °è»ê¿À·ù°¡ ³ªÁö ¾Êµµ·ÏÇÏ´Â °è»êÀÌ´Ù. 
-				{
-					//i==0ÀÎ °æ¿ì¿¡´Â ÁÖº¯ÇàµéÀ» ÇØ´çÇà¿¡ ´õÇØ¼­ ÇÇº¿ÀÌ 0ÀÌ ¾Æ´Ñ¼ö·Î ¸¸µé¾îÁà¾ßÇÑ´Ù.
-						//´ÜÀ§Çà·Ä¿¡µµ °°Àº ¿¬»ê Àû¿ëÇØ¾ßÇÔ.
-					if (i > 0)
-					{
-						//¹Ù·Î ¾Æ·¡ ÇàµéÀ» ÇÇº¿Çà¿¡ ´õÇØÁÖ´Â ¿¬»êÁøÇà
-						for (int jx = 0; jx < n; jx++)
-						{
-							this->matrix_1[i][jx] += this->matrix_1[i + 1][jx];
-							this->matrix_2[i][jx] += this->matrix_2[i + 1][jx];
-						}
-
-						for (int jk = 0; jk < n; jk++)
-						{
-
-							this->matrix_1[i][jk] = this->matrix_1[i][jk] / this->matrix_1[i][j];
-							this->matrix_2[i][jk] = this->matrix_2[i][jk] / this->matrix_1[i][j];
-						}
-					}
-					else if (i = (n - 1))
-					{
-						//i==n-1ÀÎ °æ¿ì ¹Ù·Î À§ÀÇ ÇàµéÀ» ÇÇº¿Çà¿¡ ´õÇØÁÖ´Â ¿¬»êÁøÇà
-
-						for (int jx = 0; jx < n; jx++)
-						{
-							this->matrix_1[i][jx] += this->matrix_1[i - 1][jx];
-							this->matrix_2[i][jx] += this->matrix_2[i - 1][jx];
-						}
-
-						for (int jk = 0; jk < n; jk++)
-						{
-
-							this->matrix_1[i][jk] = this->matrix_1[i][jk] / this->matrix_1[i][j];
-							this->matrix_2[i][jk] = this->matrix_2[i][jk] / this->matrix_1[i][j];
-						}
-					}
-
-				}
-				else//i°¡ 0ÀÌ ¾Æ´Ñ°æ¿ì! -> ±×³É ½ÇÇàÇØµµµÈ´Ù
-				{
-					for (int jk = 0; jk < n; jk++)
-					{
-						//i==jÀÎ °æ¿ì¿¡¼­ °°Àº ÇàÀ» ´Ù ³ª´²ÁØ´Ù.
-						//ÀÌ °æ¿ì ÇÇº¿µéÀ» 1·Î ¸¸µé¾îÁØ´Ù.
-						this->matrix_1[i][jk] = this->matrix_1[i][jk] / this->matrix_1[i][j];
-						this->matrix_2[i][jk] = this->matrix_2[i][jk] / this->matrix_1[i][j];
-					}
-				}
-
-				//i==j¾Æ·¡ÀÇ ¿ä¼ÒµéÀ» 0À¸·Î ¸¸µé¾îÁÖ´Â °úÁ¤
-				//Á¶°Ç : i = j°¡ °İÀÚ¸¦ ¹ş¾î³ª¸é ¾ÈµÈ´Ù.
-				if (i > 0)
-				{
-					for (int ik = i + 1; ik < n; ik++)
-					{
-						for (int jk = 0; jk < n; jk++)
-						{
-							this->matrix_1[ik][jk] -= this->matrix_1[ik][jk] * this->matrix_1[i][jk];
-							this->matrix_2[ik][jk] -= this->matrix_2[ik][jk] * this->matrix_2[i][jk];
-						}
-					}
-				}
-				//i==jÀ§ÀÇ ¿ä¼ÒµéÀ» 0À¸·Î ¸¸µé¾îÁÖ´Â °úÁ¤
-				if (i < n)
-				{
-					for (int ik = n - 1; ik > (-1); ik--)
-					{
-						for (int jk = 0; jk < n; jk++)
-						{
-							this->matrix_1[ik][jk] -= this->matrix_1[ik][jk] * this->matrix_1[i][jk];
-							this->matrix_2[ik][jk] -= this->matrix_2[ik][jk] * this->matrix_2[i][jk];
-						}
-					}
-				}
-			}
+			matrix_1[i][j] = matrix_temp[i][j];
 		}
 	}
-	//À§ÀÇ °úÁ¤À» ÅëÇØ matrix_1¿¡´Â ´ÜÀ§Çà·Ä, matrix_2¿¡´Â ¿ªÇà·ÄÀÌ ÀúÀåµÇ¾úÀ» °ÍÀÌ´Ù.
-	cout << "test return : [Á¤¹æÇà·Ä->´ÜÀ§Çà·Ä output]\n" << endl;
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-			cout << this->matrix_1[i][j] << " ";
-		cout << endl;
-	}
-	cout << "test return : [´ÜÀ§Çà·Ä->¿ªÇà·Ä output]\n" << endl;
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < n; j++)
-			cout << this->matrix_2[i][j] << " ";
-		cout << endl;
-	}
+
+	delete[]matrix_temp;
 
 	return this->matrix_2;
 }
