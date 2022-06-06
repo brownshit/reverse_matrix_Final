@@ -4,8 +4,7 @@ using namespace std;
 
 matrix::matrix(){}
 
-
-//¿ÜºÎ¿¡¼­ ¸â¹öº¯¼ö¿¡ Á¢±ÙÇÏ±â À§ÇÑ ÇÔ¼öµé
+//ì™¸ë¶€ì—ì„œ ë©¤ë²„ë³€ìˆ˜ì— ì ‘ê·¼í•˜ê¸° ìœ„í•œ í•¨ìˆ˜ë“¤
 void matrix::set_my_m1(double** m1)
 {
 	this->matrix_n1 = m1;
@@ -14,9 +13,6 @@ double** matrix::get_my_mat_n1()
 {
 	return this->matrix_n1;
 }
-//ÄÄÆÄÀÏÇÒ ¶§ ÄÄÆÄÀÏ·¯´Â this¸¦ ÇÔ¼ö¿¡ Ãß°¡ÇÑ´Ù.
-//ÀÌ this Æ÷ÀÎÅÍ´Â ¸â¹ö ÇÔ¼ö°¡ È£ÃâµÈ °´Ã¼ÀÇ ÁÖ¼Ò¸¦ °¡¸®Å°´Â ¼û°ÜÁø Æ÷ÀÎÅÍ
-
 void matrix::set_my_m2(double** m2)
 {
 	this->matrix_n2 = m2;
@@ -35,24 +31,24 @@ int matrix::get_my_num()
 	return this->matrix_size;
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//matrixÀÇ Å©±â¸¦ °¡Á®¿À±â À§ÇÑ function¼±¾ğ
+//matrixì˜ í¬ê¸°ë¥¼ ê°€ì ¸ì˜¤ê¸° ìœ„í•œ functionì„ ì–¸
 void matrix::matrix_size_get()
 {
-	cout << "N_By_NÇà·ÄÀÇ size input : ";
+	cout << "N_By_Ní–‰ë ¬ì˜ size input : ";
 	cin >> this->matrix_size;
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//µ¿ÀûÇÒ´ç ¸Ş¸ğ¸® ÇÒ´çÇÔ¼ö
+//ë™ì í• ë‹¹ ë©”ëª¨ë¦¬ í• ë‹¹í•¨ìˆ˜
 void matrix::new_matrix()
 {
-	//matrix_n1ÀÇ µ¿ÀûÇÒ´ç
+	//matrix_n1ì˜ ë™ì í• ë‹¹
 	this->matrix_n1 = new double* [this->matrix_size];
 	for (int i = 0; i < this->matrix_size; i++)
 	{
 		this->matrix_n1[i] = new double[this->matrix_size];
 	}
 
-	//matrix_n2ÀÇ µ¿ÀûÇÒ´ç
+	//matrix_n2ì˜ ë™ì í• ë‹¹
 	this->matrix_n2 = new double* [this->matrix_size];
 	for (int i = 0; i < this->matrix_size; i++)
 	{
@@ -61,17 +57,17 @@ void matrix::new_matrix()
 }
 
 
-//µ¿ÀûÇÒ´ç ¸Ş¸ğ¸® ÇØÁ¦ÇÔ¼ö
+//ë™ì í• ë‹¹ ë©”ëª¨ë¦¬ í•´ì œí•¨ìˆ˜
 void matrix::delete_matrix()
 {
 	delete[] this->matrix_n2, this->matrix_n1;
 }
 
-//Çà·Ä ¹İÈ¯ÇÔ¼ö
+//í–‰ë ¬ ë°˜í™˜í•¨ìˆ˜
 
 void matrix::matrix_return(double** mymatrix, int n)
 {
-	cout << "[Çà·Ä Ãâ·Â]" << endl;
+	cout << "[í–‰ë ¬ ì¶œë ¥]" << endl;
 	for (int i = 0; i < n; i++)
 	{
 		for (int j = 0; j < n; j++)
@@ -82,16 +78,16 @@ void matrix::matrix_return(double** mymatrix, int n)
 	}
 }
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-//Çà·Ä °ª ÃÊ±âÈ­ ÇÔ¼ö
+//í–‰ë ¬ ê°’ ì´ˆê¸°í™” í•¨ìˆ˜
 
 void matrix::matrix_n1_Init()
 {
-	//Á¤¹æÇà·ÄÀÇ °ª ÁöÁ¤
+	//ì •ë°©í–‰ë ¬ì˜ ê°’ ì§€ì •
 	for (int i = 0; i < this->matrix_size; i++)
 	{
 		for (int j = 0; j < this->matrix_size; j++)
 		{
-			cout << "Á¤¹æÇà·Ä¿ä¼Ò[" << i << "][" << j << "] : ";
+			cout << "ì •ë°©í–‰ë ¬ìš”ì†Œ[" << i << "][" << j << "] : ";
 			cin >> this->matrix_n1[i][j];
 		}
 		cout << endl;
