@@ -2,32 +2,37 @@
 
 using namespace std;
 
-//»ı¼ºÀÚÇÔ¼ö
+//ìƒì„±ìí•¨ìˆ˜
 reverse_matrix_cofactor::reverse_matrix_cofactor(cofactor_deploy temp1, matrix temp2)
 {
 	mymatrix1 = temp1;
 	mymatrix2 = temp2;
-	matrix_1 = mymatrix1.cofactor_matrix();
+	matrix_1 = mymatrix1.cofactor_matrix(mymatrix2.get_my_mat_n1(), mymatrix2.get_my_num());
 	n = mymatrix2.get_my_num();
 
 }
 
-double** reverse_matrix_cofactor::cofactor_adjoint_matrix()
+double** reverse_matrix_cofactor::cofactor_adjoint_matrix(double det, double** matrix_1, int n)
 {
-	double det = mymatrix1.determinant_0th(mymatrix1.get_matrix(), mymatrix1.get_num());
+	//matrix_1ì€ cofactor_matrixì´ë‹¤.
+
+	//determinant_0th ë‚´ë¶€ì˜ ì¸ìë“¤ì€ ë¬´ì¡°ê±´ matrixì—ì„œ ê°€ì ¸ì™€ì•¼ í•œë‹¤.
+
+	cout << "[det] = " << det << endl;
+
 	if (det == 0)
 	{
-		cout << "Çà·Ä½ÄÀÇ °ªÀÌ 0. ¿ªÇà·Ä ¿¬»êÀ» ÁøÇàÇÒ ¼ö ¾ø´Ù." << endl;
+		cout << "í–‰ë ¬ì‹ì˜ ê°’ì´ 0. ì—­í–‰ë ¬ ì—°ì‚°ì„ ì§„í–‰í•  ìˆ˜ ì—†ìŠµë‹ˆë‹¤." << endl;
 		return 0;
 	}
-	else//ÀÌÁ¦ adjoint¸¦ ÀÌ¿ëÇÑ ¿ªÇà·Ä ¿¬»êÀ» ÁøÇàÇÑ´Ù.
+	else//ì´ì œ adjointë¥¼ ì´ìš©í•œ ì—­í–‰ë ¬ ì—°ì‚°ì„ ì§„í–‰í•œë‹¤.
 	{
 		double itemp;
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < n; j++)
 			{
-				if (i == j){}
+				if (i == j) {}
 				else
 				{
 					itemp = matrix_1[i][j];
@@ -37,7 +42,7 @@ double** reverse_matrix_cofactor::cofactor_adjoint_matrix()
 				//matrix_1[i][j]
 			}
 		}
-		//À§ÀÇ ÀÌÁß Æ÷¹®À» ½ÇÇàÇÏ¸é ÀüÄ¡ Çà·Ä·Î ¹Ù²ï´Ù.
+		//ìœ„ì˜ ì´ì¤‘ í¬ë¬¸ì„ ì‹¤í–‰í•˜ë©´ ì „ì¹˜ í–‰ë ¬ë¡œ ë°”ë€ë‹¤.
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < n; j++)
@@ -46,11 +51,16 @@ double** reverse_matrix_cofactor::cofactor_adjoint_matrix()
 				//matrix_1[i][j]
 			}
 		}
+
+		cout << "[matrix return : adjoint_reverse_matrix output]\n" << endl;
+		for (int i = 0; i < n; i++)
+		{
+			for (int j = 0; j < n; j++)
+				cout << matrix_1[j][i] << " ";
+			cout << endl;
+		}
+		cout << endl;
+
 		return matrix_1;
 	}
-	/*
-		¿©ÀÎ¼ö Àü°³¿¡¼­´Â °¢ ÄÚÆåÅÍµé¸¸ ±¸Çß´Ù .
-		(1ÇàÀÇ ÄÚÆåÅÍµé¸¸ ±¸Çß±â ¶§¹®¿¡ Ãß°¡ÀûÀ¸·Î ±× ´ÙÀ½ÀÇ ÄÚÆåÅÍµé±îÁö ±¸ÇØÁØ´Ù.)
-		Áß¿äÇÑ°ÍÀº , det°ª °¡Á®¿À´Â °Í°ú,
-	*/
 }
